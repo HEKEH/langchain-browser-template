@@ -83,10 +83,12 @@ langchain-web-template/
 ├── app/
 │   ├── api/
 │   │   └── proxy/
-│   │       └── route.ts          # API 代理路由
+│   │       └── chat/
+│   │           └── completions/
+│   │               └── route.ts   # API proxy route
 │   ├── components/
-│   │   ├── ChatInterface.tsx     # 聊天界面（包含 Agent 逻辑）
-│   │   └── CustomModal.tsx       # 弹窗组件
+│   │   ├── ChatInterface.tsx      # Chat interface (contains Agent logic)
+│   │   └── CustomModal.tsx        # Modal component
 │   ├── layout.tsx
 │   ├── page.tsx
 │   └── globals.css

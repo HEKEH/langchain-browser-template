@@ -8,7 +8,7 @@ const nextConfig = {
     // 在客户端构建时，添加 Node.js polyfills
     if (!isServer) {
       const path = require('path');
-      const stubPath = path.resolve(__dirname, 'app/lib/node-stubs.js');
+      const stubPath = path.resolve(__dirname, 'lib/node-stubs.js');
 
       // 关键：webpack 5 在遇到 node: scheme 时会直接报错，因为它不支持这个 URI scheme
       // 我们需要创建一个自定义插件在模块解析之前拦截

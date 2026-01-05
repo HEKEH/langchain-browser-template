@@ -38,7 +38,7 @@ export default function CustomModal({
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none"
-            aria-label="关闭"
+            aria-label="Close"
           >
             ×
           </button>
@@ -55,16 +55,16 @@ export default function CustomModal({
                 onClick={onClose}
                 className="px-4 py-2 text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
               >
-                取消
+                Cancel
               </button>
               <button
                 onClick={() => {
-                  // 这里可以添加确认后的回调
+                  // Callback after confirmation can be added here
                   onClose();
                 }}
                 className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors"
               >
-                确认
+                Confirm
               </button>
             </>
           )}
@@ -74,16 +74,16 @@ export default function CustomModal({
                 onClick={onClose}
                 className="px-4 py-2 text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
               >
-                取消
+                Cancel
               </button>
               <button
                 onClick={() => {
-                  // 这里可以添加提交后的回调
+                  // Callback after submission can be added here
                   onClose();
                 }}
                 className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors"
               >
-                提交
+                Submit
               </button>
             </>
           )}
@@ -92,7 +92,7 @@ export default function CustomModal({
               onClick={onClose}
               className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors"
             >
-              确定
+              OK
             </button>
           )}
         </div>

@@ -5,13 +5,13 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const nextConfig = {
   reactStrictMode: true,
   webpack: (config, { isServer }) => {
-    // 在客户端构建时，添加 Node.js polyfills
+    // Add Node.js polyfills for client-side builds
     if (!isServer) {
       const path = require('path');
       const stubPath = path.resolve(__dirname, 'lib/node-stubs.js');
 
-      // 关键：webpack 5 在遇到 node: scheme 时会直接报错，因为它不支持这个 URI scheme
-      // 我们需要创建一个自定义插件在模块解析之前拦截
+      // Critical: webpack 5 throws an error when encountering the node: scheme because it doesn't support this URI scheme
+      // We need to create a custom plugin to intercept before module resolution
       class NodeSchemeAliasPlugin {
         constructor(stubPath) {
           this.stubPath = stubPath;
@@ -27,10 +27,10 @@ const nextConfig = {
         }
       }
 
-      // 使用自定义插件在最早的阶段拦截
+      // Use custom plugin to intercept at the earliest stage
       config.plugins.unshift(new NodeSchemeAliasPlugin(stubPath));
 
-      // 同时保留 NormalModuleReplacementPlugin 作为备用
+      // Also keep NormalModuleReplacementPlugin as a fallback
       config.plugins.unshift(
         new webpack.NormalModuleReplacementPlugin(
           /^node:async_hooks$/,
@@ -38,34 +38,34 @@ const nextConfig = {
         )
       );
 
-      // 添加 Node.js polyfills（处理常见的 Node.js 模块）
+      // Add Node.js polyfills (handles common Node.js modules)
       config.plugins.push(
         new NodePolyfillPlugin({
-          excludeAliases: ['async_hooks'], // 排除 async_hooks，使用自定义实现
+          excludeAliases: ['async_hooks'], // Exclude async_hooks, use custom implementation
         })
       );
 
-      // 关键：在 resolve.alias 中设置，这是 webpack 解析模块的第一站
-      // 必须在 NormalModuleReplacementPlugin 之前生效
+      // Critical: Set in resolve.alias, this is webpack's first stop for module resolution
+      // Must take effect before NormalModuleReplacementPlugin
       if (!config.resolve.alias) {
         config.resolve.alias = {};
       }
 
-      // 将 Node.js 内置模块映射到浏览器兼容的版本
-      // resolve.alias 在模块解析的最早阶段生效
+      // Map Node.js built-in modules to browser-compatible versions
+      // resolve.alias takes effect at the earliest stage of module resolution
       config.resolve.alias['node:async_hooks'] = stubPath;
-      // 不可用的模块设置为 false
+      // Set unavailable modules to false
       config.resolve.alias['node:fs'] = false;
       config.resolve.alias['node:net'] = false;
       config.resolve.alias['node:tls'] = false;
 
-      // 确保 resolve 配置允许处理这些别名
+      // Ensure resolve configuration allows handling these aliases
       if (!config.resolve.extensionAlias) {
         config.resolve.extensionAlias = {};
       }
 
-      // 将其他 node: 前缀的模块映射到非前缀版本，让 polyfills 处理
-      // 例如 node:path -> path (由 NodePolyfillPlugin 提供)
+      // Map other node: prefixed modules to non-prefixed versions for polyfills to handle
+      // For example, node:path -> path (provided by NodePolyfillPlugin)
       const polyfillableModules = ['path', 'url', 'util', 'stream', 'crypto', 'zlib', 'http', 'https', 'os', 'assert'];
       polyfillableModules.forEach(moduleName => {
         if (!config.resolve.alias[`node:${moduleName}`]) {
@@ -73,15 +73,15 @@ const nextConfig = {
         }
       });
 
-      // 设置 fallback - NodePolyfillPlugin 会自动填充大部分模块
-      // 对于无法在浏览器中实现的模块，设置为 false
+      // Set fallback - NodePolyfillPlugin will automatically polyfill most modules
+      // Set modules that cannot be implemented in browsers to false
       config.resolve.fallback = {
         ...config.resolve.fallback,
-        // 文件系统和网络相关模块在浏览器中不可用
+        // File system and network-related modules are not available in browsers
         fs: false,
         net: false,
         tls: false,
-        // async_hooks 需要特殊处理，使用自定义 stub
+        // async_hooks requires special handling, use custom stub
         async_hooks: stubPath,
       };
     }

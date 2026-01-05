@@ -12,10 +12,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 获取 OpenAI API 基础 URL，支持自定义（用于代理或其他兼容的 API）
+    // Get OpenAI API base URL, supports custom URLs (for proxies or other compatible APIs)
     const apiBaseUrl = process.env.API_BASE_URL || 'https://api.openai.com';
 
-    // 转发请求到 OpenAI API
+    // Forward request to OpenAI API
     const response = await fetch(`${apiBaseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(body),
     });
 
-    // 如果是流式响应，需要特殊处理
+    // Special handling for streaming responses
     if (body.stream) {
       if (!response.body) {
         return new Response(
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 非流式响应
+    // Non-streaming response
     const data = await response.json();
     return new Response(JSON.stringify(data), {
       headers: { 'Content-Type': 'application/json' },

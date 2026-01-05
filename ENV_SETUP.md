@@ -36,9 +36,9 @@ NEXT_PUBLIC_ENABLE_STREAMING=false
 # 设置为 true 可以在浏览器控制台看到详细的 Agent 执行日志
 NEXT_PUBLIC_AGENT_VERBOSE=false
 
-# API 基础 URL（默认: https://api.openai.com）
+# API 基础 URL（默认: https://api.openai.com/v1/）
 # 如果使用代理或其他兼容的 OpenAI API 服务，可以修改此值
-API_BASE_URL=https://api.openai.com
+API_BASE_URL=https://api.openai.com/v1/
 ```
 
 ## 环境变量说明

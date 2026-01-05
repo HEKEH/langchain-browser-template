@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Get OpenAI API base URL, supports custom URLs (for proxies or other compatible APIs)
-    const apiBaseUrl = process.env.API_BASE_URL || 'https://api.openai.com';
+    const apiBaseUrl = process.env.API_BASE_URL || 'https://api.openai.com/v1/';
 
     // Forward request to OpenAI API
     const response = await fetch(`${apiBaseUrl}/chat/completions`, {

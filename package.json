@@ -2,6 +2,22 @@
   "name": "langchain-web-template",
   "version": "0.1.0",
   "private": true,
+  "keywords": [
+    "langchain",
+    "langchainjs",
+    "browser",
+    "nextjs",
+    "ai-agent",
+    "openai",
+    "typescript",
+    "react",
+    "chatbot",
+    "ai",
+    "agent",
+    "frontend-tools",
+    "llm",
+    "llm-agent"
+  ],
   "engines": {
     "pnpm": ">=8.0.0",
     "node": ">=18.0.0"
